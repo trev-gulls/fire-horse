@@ -410,6 +410,23 @@
       setTimeout(() => { fireIntensity = 1; }, 1200);
     }
 
+    // ─── URL Parameter Customization ─────────────────────────────────────────────
+
+    const DEFAULT_CN = '新年快乐，万事如意';
+    const DEFAULT_EN = 'Wishing you a Happy New Year and may all go well';
+
+    (function() {
+      const params = new URLSearchParams(window.location.search);
+      const cnEl = document.getElementById('message-cn');
+      const enEl = document.getElementById('message-en');
+
+      const customCn = params.get('cn');
+      const customEn = params.get('msg');
+
+      if (customCn && customCn.trim()) cnEl.textContent = customCn.trim();
+      if (customEn && customEn.trim()) enEl.textContent = customEn.trim();
+    })();
+
     // ─── Envelope Open Interaction ────────────────────────────────────────────────
 
     const envelope = document.getElementById('envelope');
