@@ -202,6 +202,17 @@
           0 0 26px 10px rgba(255,150,0,0.5);
       }
     }
+
+    /* ── Fire Canvas ─────────────────────────────────────────────── */
+    #fire-canvas {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      pointer-events: none;
+      z-index: 5;
+    }
   </style>
 </head>
 <body>
@@ -233,7 +244,103 @@
   </div>
   <canvas id="fire-canvas" aria-hidden="true"></canvas>
   <script>
-    // scripts go here
+    // ─── Fire Particle System ───────────────────────────────────────────────────
+
+    const canvas = document.getElementById('fire-canvas');
+    const ctx = canvas.getContext('2d');
+    let particles = [];
+    let fireIntensity = 1; // multiplier: 1 = ambient, 3 = burst on open
+
+    function resizeCanvas() {
+      canvas.width = window.innerWidth;
+      canvas.height = window.innerHeight;
+    }
+
+    resizeCanvas();
+    window.addEventListener('resize', resizeCanvas);
+    window.addEventListener('orientationchange', () => {
+      setTimeout(resizeCanvas, 100);
+    });
+
+    class Particle {
+      constructor(x, y) {
+        this.reset(x, y);
+      }
+
+      reset(x, y) {
+        this.x = x + (Math.random() - 0.5) * 60;
+        this.y = y + (Math.random() - 0.5) * 20;
+        this.vx = (Math.random() - 0.5) * 1.2;
+        this.vy = -(Math.random() * 2.5 + 1) * fireIntensity;
+        this.life = 1.0;
+        this.decay = Math.random() * 0.018 + 0.012;
+        this.size = Math.random() * 12 + 4;
+      }
+
+      update() {
+        this.x += this.vx;
+        this.y += this.vy;
+        this.vx += (Math.random() - 0.5) * 0.3;
+        this.life -= this.decay;
+      }
+
+      draw() {
+        if (this.life <= 0) return;
+        // Color: orange (new) → yellow → near-white (old)
+        const t = 1 - this.life;
+        const r = 255;
+        const g = Math.floor(t < 0.5 ? t * 2 * 160 : 160 + (t - 0.5) * 2 * 95);
+        const b = Math.floor(t > 0.7 ? (t - 0.7) * 3.3 * 255 : 0);
+        ctx.save();
+        ctx.globalAlpha = this.life * 0.85;
+        ctx.fillStyle = `rgb(${r},${g},${b})`;
+        ctx.beginPath();
+        ctx.arc(this.x, this.y, this.size * this.life, 0, Math.PI * 2);
+        ctx.fill();
+        ctx.restore();
+      }
+    }
+
+    function getSealCenter() {
+      const seal = document.getElementById('seal');
+      const rect = seal.getBoundingClientRect();
+      return {
+        x: rect.left + rect.width / 2,
+        y: rect.top + rect.height / 2,
+      };
+    }
+
+    function spawnParticles() {
+      const target = Math.floor(60 * fireIntensity);
+      if (particles.length < target) {
+        const { x, y } = getSealCenter();
+        for (let i = 0; i < 2; i++) {
+          particles.push(new Particle(x, y));
+        }
+      }
+    }
+
+    function animate() {
+      ctx.clearRect(0, 0, canvas.width, canvas.height);
+      const { x, y } = getSealCenter();
+
+      particles = particles.map(p => {
+        if (p.life <= 0) p.reset(x, y);
+        return p;
+      });
+
+      spawnParticles();
+      particles.forEach(p => { p.update(); p.draw(); });
+      requestAnimationFrame(animate);
+    }
+
+    animate();
+
+    // Called by open interaction (Task 6)
+    function fireBurst() {
+      fireIntensity = 3;
+      setTimeout(() => { fireIntensity = 1; }, 1200);
+    }
   </script>
 </body>
 </html>
