@@ -1,0 +1,13 @@
+{
+  "name": "fire-horse",
+  "version": "1.0.0",
+  "description": "Digital red envelope for Chinese New Year 2026 — Year of the Fire Horse",
+  "private": true,
+  "scripts": {
+    "generate-preview": "bun scripts/generate-preview.ts"
+  },
+  "devDependencies": {
+    "@napi-rs/canvas": "^0.1.57",
+    "@types/bun": "latest"
+  }
+}
