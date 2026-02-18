@@ -213,6 +213,61 @@
       pointer-events: none;
       z-index: 5;
     }
+
+    /* ── Open State ──────────────────────────────────────────────── */
+    .envelope.is-open .envelope-flap {
+      transform: rotateX(-170deg);
+    }
+
+    .envelope.is-open .seal {
+      opacity: 0;
+      pointer-events: none;
+      -webkit-animation: none;
+              animation: none;
+      transition: opacity 0.3s ease;
+    }
+
+    /* ── Message ─────────────────────────────────────────────────── */
+    .message {
+      position: absolute;
+      top: 8%;
+      left: 0;
+      right: 0;
+      text-align: center;
+      padding: 0 20px;
+      opacity: 0;
+      transform: translateY(24px);
+      transition: opacity 0.5s ease 0.5s, transform 0.5s ease 0.5s;
+      z-index: 1;
+      pointer-events: none;
+    }
+
+    .envelope.is-open .message {
+      opacity: 1;
+      transform: translateY(0);
+    }
+
+    .message-cn {
+      font-size: clamp(1.3rem, 5.5vw, 2rem);
+      color: #FFD700;
+      text-shadow: 0 0 20px rgba(255,215,0,0.5);
+      line-height: 1.5;
+      margin-bottom: 12px;
+    }
+
+    .message-en {
+      font-size: clamp(0.8rem, 3vw, 1rem);
+      color: #FFECB3;
+      font-style: italic;
+      line-height: 1.6;
+      margin-bottom: 14px;
+    }
+
+    .message-year {
+      font-size: clamp(0.75rem, 2.5vw, 0.9rem);
+      color: #C9A84C;
+      letter-spacing: 0.12em;
+    }
   </style>
 </head>
 <body>
@@ -353,6 +408,36 @@
       fireIntensity = 3;
       setTimeout(() => { fireIntensity = 1; }, 1200);
     }
+
+    // ─── Envelope Open Interaction ────────────────────────────────────────────────
+
+    const envelope = document.getElementById('envelope');
+    const seal = document.getElementById('seal');
+    let isOpen = false;
+
+    function openEnvelope() {
+      if (isOpen) return;
+      isOpen = true;
+      envelope.classList.add('is-open');
+      fireBurst();
+    }
+
+    // Desktop: click
+    seal.addEventListener('click', openEnvelope);
+
+    // Mobile: touchstart (preventDefault stops the 300ms delayed click from also firing)
+    seal.addEventListener('touchstart', function(e) {
+      e.preventDefault();
+      openEnvelope();
+    }, { passive: false });
+
+    // Keyboard: Enter and Space for accessibility (seal has role="button" tabindex="0")
+    seal.addEventListener('keydown', function(e) {
+      if (e.key === 'Enter' || e.key === ' ') {
+        e.preventDefault();
+        openEnvelope();
+      }
+    });
   </script>
 </body>
 </html>
