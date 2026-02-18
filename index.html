@@ -15,7 +15,128 @@
   <meta property="og:type" content="website" />
 
   <style>
-    /* styles go here */
+    /* ── Step 1: Base reset and scene ── */
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    body {
+      min-height: 100vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      background: radial-gradient(ellipse at center, #3d0000 0%, #1a0000 70%);
+      font-family: "PingFang SC", "Microsoft YaHei", "SimSun", serif;
+      overflow: hidden;
+    }
+
+    .scene {
+      position: relative;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      width: 100vw;
+      height: 100vh;
+      perspective: 800px;
+    }
+
+    /* ── Step 2: Envelope container ── */
+    .envelope {
+      position: relative;
+      width: min(300px, 82vw);
+      height: min(450px, 78vh);
+      cursor: default;
+      user-select: none;
+    }
+
+    .envelope-back,
+    .envelope-front,
+    .envelope-flap {
+      position: absolute;
+      left: 0;
+      width: 100%;
+    }
+
+    /* ── Step 3: Envelope back (full card, always behind) ── */
+    .envelope-back {
+      top: 0;
+      height: 100%;
+      background: linear-gradient(160deg, #CC0000 0%, #8B0000 100%);
+      border: 2px solid #C9A84C;
+      box-shadow:
+        0 0 0 1px #8B0000,
+        0 0 0 4px #C9A84C,
+        0 0 0 5px #8B0000,
+        0 12px 50px rgba(0,0,0,0.7);
+      border-radius: 6px;
+    }
+
+    /* ── Step 4: Envelope front (lower panel, covers bottom 68%) ── */
+    .envelope-front {
+      top: 32%;
+      height: 68%;
+      background-color: #A00000;
+      background-image:
+        linear-gradient(45deg, rgba(201,168,76,0.12) 25%, transparent 25%),
+        linear-gradient(-45deg, rgba(201,168,76,0.12) 25%, transparent 25%),
+        linear-gradient(45deg, transparent 75%, rgba(201,168,76,0.12) 75%),
+        linear-gradient(-45deg, transparent 75%, rgba(201,168,76,0.12) 75%);
+      background-size: 16px 16px;
+      background-position: 0 0, 0 8px, 8px -8px, -8px 0px;
+      border-left: 2px solid #C9A84C;
+      border-right: 2px solid #C9A84C;
+      border-bottom: 2px solid #C9A84C;
+      border-radius: 0 0 4px 4px;
+      z-index: 2;
+      position: absolute;
+    }
+
+    /* ── Step 5: Flap with rounded arch bottom (traditional shape) ── */
+    .envelope-flap {
+      top: 0;
+      height: 35%;
+      background: linear-gradient(180deg, #BB0000 0%, #990000 100%);
+      border-top: 2px solid #C9A84C;
+      border-left: 2px solid #C9A84C;
+      border-right: 2px solid #C9A84C;
+      /* Rounded arch bottom — traditional envelope flap shape */
+      border-radius: 4px 4px 50% 50% / 4px 4px 30px 30px;
+      z-index: 3;
+      transform-origin: top center;
+      transform-style: preserve-3d;
+      transition: transform 0.65s cubic-bezier(0.4, 0, 0.2, 1);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      overflow: hidden;
+    }
+
+    /* ── Step 6: 福 character on the flap ── */
+    .fu-character {
+      font-size: clamp(2.5rem, 10vw, 4rem);
+      color: #FFD700;
+      text-shadow:
+        0 0 20px rgba(255,215,0,0.8),
+        0 2px 4px rgba(0,0,0,0.4);
+      line-height: 1;
+      position: relative;
+      z-index: 1;
+      /* Subtle emboss border around character */
+      -webkit-text-stroke: 1px rgba(255,200,0,0.3);
+    }
+
+    /* ── Step 7: Gold horse decoration on the envelope body ── */
+    .envelope-back::after {
+      content: '馬';
+      position: absolute;
+      top: 15%;
+      left: 50%;
+      transform: translateX(-50%);
+      font-size: clamp(4rem, 20vw, 7rem);
+      color: rgba(255, 215, 0, 0.18);
+      text-shadow: 0 0 30px rgba(255,215,0,0.1);
+      line-height: 1;
+      pointer-events: none;
+      font-family: "PingFang SC", "Microsoft YaHei", "SimSun", serif;
+    }
   </style>
 </head>
 <body>
