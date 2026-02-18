@@ -16,3 +16,11 @@ Digital red envelope (红包) for Chinese New Year 2026 — Year of the Fire Hor
 - Test: Open `index.html` in a browser — no server required
 - Share as file: Attach `index.html` to email/message
 - Host: `npx serve .` or drag folder to Netlify/GitHub Pages
+
+## Deployment
+
+Before sharing as a hosted link, update these in `index.html`:
+- `og:image` → absolute URL to `preview.png` (e.g. `https://your-site.com/preview.png`)
+- `og:url` → absolute URL to the hosted page
+
+OG meta tags have no effect when sharing as a file attachment — they only work when hosted.
