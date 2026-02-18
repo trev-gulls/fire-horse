@@ -3,13 +3,13 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>新年快乐 · Happy Chinese New Year 🧧</title>
+  <title>🧧 新年快乐 · Happy Chinese New Year</title>
 
   <!-- Open Graph / link preview -->
   <!-- IMPORTANT: og:image and og:url must be updated to absolute URLs before sharing a hosted link.
        OG meta tags have no effect when sharing as a file attachment — they only work when hosted. -->
-  <meta property="og:title" content="新年快乐 · Happy Chinese New Year 🧧" />
-  <meta property="og:description" content="🧧 新年快乐 · Happy Chinese New Year — Tap to open your red envelope!" />
+  <meta property="og:title" content="新年快乐 · Happy Chinese New Year" />
+  <meta property="og:description" content="新年快乐 · Happy Chinese New Year — Tap to open your red envelope!" />
   <meta property="og:image" content="preview.png" />
   <meta property="og:url" content="https://your-domain.com/" />
   <meta property="og:type" content="website" />
@@ -58,19 +58,10 @@
     }
 
     /* ── Step 3: Envelope back (full card, always behind) ── */
-    /* Fix 5: hatch patterns layered on top of gradient so they show through flap arch gap */
     .envelope-back {
       top: 0;
       height: 100%;
-      background-color: #8B0000;
-      background-image:
-        linear-gradient(45deg, rgba(201,168,76,0.12) 25%, transparent 25%),
-        linear-gradient(-45deg, rgba(201,168,76,0.12) 25%, transparent 25%),
-        linear-gradient(45deg, transparent 75%, rgba(201,168,76,0.12) 75%),
-        linear-gradient(-45deg, transparent 75%, rgba(201,168,76,0.12) 75%),
-        linear-gradient(160deg, #CC0000 0%, #8B0000 100%);
-      background-size: 16px 16px, 16px 16px, 16px 16px, 16px 16px, 100% 100%;
-      background-position: 0 0, 0 8px, 8px -8px, -8px 0px, 0 0;
+      background: linear-gradient(160deg, #BB0000 0%, #8B0000 100%);
       border: 2px solid #C9A84C;
       box-shadow:
         0 0 0 1px #8B0000,
@@ -81,20 +72,12 @@
       z-index: 1;
     }
 
-    /* ── Step 4: Envelope front (lower panel, covers bottom 68%) ── */
-    /* Fix 7: individual borders removed — back's box-shadow provides unified border ring */
+    /* ── Step 4: Envelope front (lower panel, covers bottom 72%) ── */
     .envelope-front {
-      top: 32%;
-      height: 68%;
+      top: 28%;
+      height: 72%;
       position: relative;
-      background-color: #A00000;
-      background-image:
-        linear-gradient(45deg, rgba(201,168,76,0.12) 25%, transparent 25%),
-        linear-gradient(-45deg, rgba(201,168,76,0.12) 25%, transparent 25%),
-        linear-gradient(45deg, transparent 75%, rgba(201,168,76,0.12) 75%),
-        linear-gradient(-45deg, transparent 75%, rgba(201,168,76,0.12) 75%);
-      background-size: 16px 16px;
-      background-position: 0 0, 0 8px, 8px -8px, -8px 0px;
+      background: #CC0000;
       border-radius: 0 0 4px 4px;
       z-index: 2;
     }
@@ -121,8 +104,6 @@
     }
 
     /* ── Step 5: Flap with rounded arch bottom (traditional shape) ── */
-    /* Fix 6: transform-origin → bottom center so flap lifts toward viewer like a lid */
-    /* Fix 7: individual borders removed — back's box-shadow provides unified border ring */
     .envelope-flap {
       top: 0;
       height: 35%;
@@ -130,40 +111,25 @@
       /* Rounded arch bottom — traditional envelope flap shape */
       border-radius: 4px 4px 50% 50% / 4px 4px 30px 30px;
       z-index: 3;
-      transform-origin: bottom center;
+      transform-origin: top center;
       transform-style: preserve-3d;
       transition: transform 0.65s cubic-bezier(0.4, 0, 0.2, 1);
-      display: flex;
-      align-items: center;
-      justify-content: center;
     }
 
-    /* ── Step 6: 福 character on the flap ── */
+    /* ── Step 6: 福 character on the front body ── */
     .fu-character {
-      font-size: clamp(2.5rem, 10vw, 4rem);
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      font-size: clamp(3.5rem, 16vw, 6rem);
       color: #FFD700;
       text-shadow:
         0 0 20px rgba(255,215,0,0.8),
         0 2px 4px rgba(0,0,0,0.4);
       line-height: 1;
-      position: relative;
-      z-index: 1;
-    }
-
-    /* ── Step 7: Gold horse decoration on the envelope body ── */
-    /* Fix 8: opacity increased to 0.45 for a more visible watermark */
-    .envelope-back::after {
-      content: '馬';
-      position: absolute;
-      top: 15%;
-      left: 50%;
-      transform: translateX(-50%);
-      font-size: clamp(4rem, 20vw, 7rem);
-      color: rgba(255, 215, 0, 0.45);
-      text-shadow: 0 0 30px rgba(255,215,0,0.15);
-      line-height: 1;
       pointer-events: none;
-      font-family: "PingFang SC", "Microsoft YaHei", "SimSun", serif;
+      z-index: 1;
     }
 
     /* ── Wax Seal ────────────────────────────────────────────────── */
@@ -252,9 +218,9 @@
     }
 
     /* ── Open State ──────────────────────────────────────────────── */
-    /* Fix 6: positive rotateX with bottom-center origin = top of flap lifts toward viewer */
+    /* negative rotateX with bottom-center origin = top of flap folds backward (away from viewer) */
     .envelope.is-open .envelope-flap {
-      transform: rotateX(170deg);
+      transform: rotateX(-175deg);
     }
 
     .envelope.is-open .seal {
@@ -264,18 +230,44 @@
               animation: none;
     }
 
+    /* ── Paper Card ───────────────────────────────────────────────── */
+    .envelope-paper {
+      position: absolute;
+      top: 18%;
+      left: 6%;
+      width: 88%;
+      height: 74%;
+      background: linear-gradient(160deg, #FFF8F0 0%, #FFE4CC 60%, #FFF0DC 100%);
+      border-radius: 3px 3px 0 0;
+      box-shadow:
+        0 -10px 30px rgba(0,0,0,0.5),
+        0 4px 12px rgba(0,0,0,0.25),
+        inset 0 0 0 1px rgba(180,100,0,0.12);
+      z-index: 3;
+      opacity: 0;
+      transform: translateY(50%);
+      transition:
+        opacity 0.4s ease 0.3s,
+        transform 0.8s cubic-bezier(0.34, 1.56, 0.64, 1) 0.3s;
+      pointer-events: none;
+    }
+
+    .envelope.is-open .envelope-paper {
+      opacity: 1;
+      transform: translateY(-8%);
+    }
+
     /* ── Message ─────────────────────────────────────────────────── */
     .message {
       position: absolute;
-      top: 8%;
+      top: 18%;
       left: 0;
       right: 0;
       text-align: center;
       padding: 0 20px;
       opacity: 0;
-      transform: translateY(24px);
-      transition: opacity 0.5s ease 0.7s, transform 0.5s ease 0.7s;
-      z-index: 2;
+      transform: translateY(12px);
+      transition: opacity 0.5s ease 1.0s, transform 0.5s ease 1.0s;
       pointer-events: none;
     }
 
@@ -286,15 +278,14 @@
 
     .message-cn {
       font-size: clamp(1.3rem, 5.5vw, 2rem);
-      color: #FFD700;
-      text-shadow: 0 0 20px rgba(255,215,0,0.5);
+      color: #8B1A1A;
       line-height: 1.5;
       margin-bottom: 12px;
     }
 
     .message-en {
       font-size: clamp(0.8rem, 3vw, 1rem);
-      color: #FFECB3;
+      color: #5C3317;
       font-style: italic;
       line-height: 1.6;
       margin-bottom: 14px;
@@ -302,7 +293,7 @@
 
     .message-year {
       font-size: clamp(0.75rem, 2.5vw, 0.9rem);
-      color: #C9A84C;
+      color: #7A4A1E;
       letter-spacing: 0.12em;
     }
   </style>
@@ -313,19 +304,21 @@
       <!-- Back of envelope (always behind) -->
       <div class="envelope-back"></div>
 
-      <!-- Flap (folds up to open) -->
-      <div class="envelope-flap" id="flap">
+      <!-- Flap (folds backward to open) -->
+      <div class="envelope-flap" id="flap"></div>
+
+      <!-- Front body of envelope (福 lives here, not on the flap) -->
+      <div class="envelope-front">
         <div class="fu-character">福</div>
       </div>
 
-      <!-- Front body of envelope -->
-      <div class="envelope-front"></div>
-
-      <!-- Message (hidden until open) -->
-      <div class="message" id="message" aria-live="polite" aria-atomic="true">
-        <div class="message-cn" id="message-cn">新年快乐，万事如意</div>
-        <div class="message-en" id="message-en">Wishing you a Happy New Year and may all go well</div>
-        <div class="message-year">🐎 2026 · 年</div>
+      <!-- Paper card (rises from envelope on opening) -->
+      <div class="envelope-paper">
+        <div class="message" id="message" aria-live="polite" aria-atomic="true">
+          <div class="message-cn" id="message-cn">新年快乐<br>万事如意</div>
+          <div class="message-en" id="message-en">Wishing you a Happy New Year and may all go well</div>
+          <div class="message-year">丙午年 · 2026</div>
+        </div>
       </div>
 
       <!-- Fix 1: seal is last child of .envelope — DOM order guarantees it
@@ -496,9 +489,9 @@
       // Fix 4: after burst completes, stop spawning and fade canvas out
       setTimeout(() => {
         fireActive = false;
-        canvas.style.transition = 'opacity 1s ease';
+        canvas.style.transition = 'opacity 0.8s ease';
         canvas.style.opacity = '0';
-      }, 2000);
+      }, 800);
     }
 
     // Desktop: click

@@ -46,6 +46,15 @@ describe("Red Envelope UI", () => {
     expect(opacity).toBeGreaterThan(0.9);
   });
 
+  test("paper card is visible after opening", async () => {
+    await page.locator(".seal").click();
+    await page.waitForTimeout(1500);
+    const opacity = await page.locator(".envelope-paper").evaluate(
+      (el) => parseFloat(getComputedStyle(el).opacity)
+    );
+    expect(opacity).toBeGreaterThan(0.9);
+  });
+
   // URL params
   test("?msg= overrides English line", async () => {
     await page.goto(`${FILE_URL}?msg=Hello+World`);
