@@ -44,6 +44,7 @@
       width: min(300px, 82vw);
       height: min(450px, 78vh);
       cursor: default;
+      -webkit-user-select: none;
       user-select: none;
     }
 
@@ -67,6 +68,7 @@
         0 0 0 5px #8B0000,
         0 12px 50px rgba(0,0,0,0.7);
       border-radius: 6px;
+      z-index: 1;
     }
 
     /* ── Step 4: Envelope front (lower panel, covers bottom 68%) ── */
@@ -86,7 +88,6 @@
       border-bottom: 2px solid #C9A84C;
       border-radius: 0 0 4px 4px;
       z-index: 2;
-      position: absolute;
     }
 
     /* ── Step 5: Flap with rounded arch bottom (traditional shape) ── */
@@ -106,7 +107,6 @@
       display: flex;
       align-items: center;
       justify-content: center;
-      overflow: hidden;
     }
 
     /* ── Step 6: 福 character on the flap ── */
@@ -119,8 +119,6 @@
       line-height: 1;
       position: relative;
       z-index: 1;
-      /* Subtle emboss border around character */
-      -webkit-text-stroke: 1px rgba(255,200,0,0.3);
     }
 
     /* ── Step 7: Gold horse decoration on the envelope body ── */
@@ -131,7 +129,7 @@
       left: 50%;
       transform: translateX(-50%);
       font-size: clamp(4rem, 20vw, 7rem);
-      color: rgba(255, 215, 0, 0.18);
+      color: rgba(255, 215, 0, 0.28);
       text-shadow: 0 0 30px rgba(255,215,0,0.1);
       line-height: 1;
       pointer-events: none;
