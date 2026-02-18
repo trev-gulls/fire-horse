@@ -147,7 +147,7 @@
       box-shadow:
         0 0 0 2px #FFD700,
         0 4px 12px rgba(0,0,0,0.5);
-      top: -44px;
+      top: -44px; /* straddles flap/front junction; revisit if flap height changes */
       left: 50%;
       transform: translateX(-50%);
       z-index: 10;
@@ -155,7 +155,10 @@
       align-items: center;
       justify-content: center;
       cursor: pointer;
-      animation: seal-pulse 2.4s ease-in-out infinite;
+      will-change: box-shadow;
+      touch-action: manipulation;
+      -webkit-animation: seal-pulse 2.4s ease-in-out infinite;
+              animation: seal-pulse 2.4s ease-in-out infinite;
       -webkit-tap-highlight-color: transparent;
     }
 
@@ -171,6 +174,21 @@
 
     /* ── Seal Pulse Animation ────────────────────────────────────── */
     @keyframes seal-pulse {
+      0%, 100% {
+        box-shadow:
+          0 0 0 2px #FFD700,
+          0 4px 12px rgba(0,0,0,0.5),
+          0 0 14px 3px rgba(255,150,0,0.25);
+      }
+      50% {
+        box-shadow:
+          0 0 0 2px #FFD700,
+          0 4px 12px rgba(0,0,0,0.5),
+          0 0 26px 10px rgba(255,150,0,0.5);
+      }
+    }
+
+    @-webkit-keyframes seal-pulse {
       0%, 100% {
         box-shadow:
           0 0 0 2px #FFD700,
