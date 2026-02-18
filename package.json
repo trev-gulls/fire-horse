@@ -5,7 +5,8 @@
   "private": true,
   "scripts": {
     "generate-preview": "bun scripts/generate-preview.ts",
-    "install-browsers": "playwright install chromium"
+    "install-browsers": "playwright install chromium",
+    "test": "bun test scripts/"
   },
   "devDependencies": {
     "@types/bun": "latest",
