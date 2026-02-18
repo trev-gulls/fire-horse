@@ -19,7 +19,36 @@
   </style>
 </head>
 <body>
-  <!-- envelope markup goes here -->
+  <div class="scene">
+    <div class="envelope" id="envelope">
+      <!-- Back of envelope (always behind) -->
+      <div class="envelope-back"></div>
+
+      <!-- Flap (folds up to open) -->
+      <div class="envelope-flap" id="flap">
+        <div class="fu-character">福</div>
+      </div>
+
+      <!-- Front body of envelope -->
+      <div class="envelope-front">
+        <!-- Wax seal (the click target) -->
+        <div class="seal" id="seal" role="button" aria-label="Tap to open">
+          <!-- Horse SVG silhouette -->
+          <svg class="seal-icon" viewBox="0 0 40 40" xmlns="http://www.w3.org/2000/svg">
+            <!-- Simplified horse head silhouette -->
+            <path d="M20 8 C14 8 10 12 10 17 C10 20 11 22 13 24 L12 32 L16 32 L16 26 C17 27 18 28 20 28 C22 28 23 27 24 26 L24 32 L28 32 L27 24 C29 22 30 20 30 17 C30 12 26 8 20 8 Z M17 18 C16 18 15 17 15 16 C15 15 16 14 17 14 C18 14 19 15 19 16 C19 17 18 18 17 18 Z" fill="#8B6914"/>
+          </svg>
+        </div>
+      </div>
+
+      <!-- Message (hidden until open) -->
+      <div class="message" id="message" aria-live="polite">
+        <div class="message-cn" id="message-cn">新年快乐，万事如意</div>
+        <div class="message-en" id="message-en">Wishing you a Happy New Year and may all go well</div>
+        <div class="message-year">🐎 2026 · 年</div>
+      </div>
+    </div>
+  </div>
   <canvas id="fire-canvas"></canvas>
   <script>
     // scripts go here
