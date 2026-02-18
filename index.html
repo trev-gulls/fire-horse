@@ -251,9 +251,22 @@
     let particles = [];
     let fireIntensity = 1; // multiplier: 1 = ambient, 3 = burst on open
 
+    let sealCenter = { x: 0, y: 0 };
+
+    function updateSealCenter() {
+      const seal = document.getElementById('seal');
+      const rect = seal.getBoundingClientRect();
+      sealCenter = { x: rect.left + rect.width / 2, y: rect.top + rect.height / 2 };
+    }
+
+    // Initialize after DOM is ready (called at end of script setup)
+    updateSealCenter();
+
     function resizeCanvas() {
       canvas.width = window.innerWidth;
       canvas.height = window.innerHeight;
+      updateSealCenter(); // update cached position (see Fix 3)
+      particles = []; // force immediate respawn at new seal position
     }
 
     resizeCanvas();
@@ -301,38 +314,37 @@
       }
     }
 
-    function getSealCenter() {
-      const seal = document.getElementById('seal');
-      const rect = seal.getBoundingClientRect();
-      return {
-        x: rect.left + rect.width / 2,
-        y: rect.top + rect.height / 2,
-      };
-    }
-
     function spawnParticles() {
       const target = Math.floor(60 * fireIntensity);
       if (particles.length < target) {
-        const { x, y } = getSealCenter();
         for (let i = 0; i < 2; i++) {
-          particles.push(new Particle(x, y));
+          particles.push(new Particle(sealCenter.x, sealCenter.y));
         }
       }
     }
 
+    let animationId = null;
+
     function animate() {
       ctx.clearRect(0, 0, canvas.width, canvas.height);
-      const { x, y } = getSealCenter();
+      const sealPos = sealCenter; // use cached position (see Fix 3)
 
-      particles = particles.map(p => {
-        if (p.life <= 0) p.reset(x, y);
-        return p;
+      particles.forEach(p => {
+        if (p.life <= 0) p.reset(sealPos.x, sealPos.y);
       });
 
       spawnParticles();
       particles.forEach(p => { p.update(); p.draw(); });
-      requestAnimationFrame(animate);
+      animationId = requestAnimationFrame(animate);
     }
+
+    document.addEventListener('visibilitychange', function() {
+      if (document.hidden) {
+        if (animationId) { cancelAnimationFrame(animationId); animationId = null; }
+      } else {
+        if (!animationId) animate();
+      }
+    });
 
     animate();
 
