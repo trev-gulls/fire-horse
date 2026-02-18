@@ -247,22 +247,16 @@
         0 4px 12px rgba(0,0,0,0.25),
         inset 0 0 0 1px rgba(180,100,0,0.12);
       z-index: 2;
-      opacity: 0;
-      transform: translateY(40%);
       pointer-events: none;
     }
 
-    @keyframes card-emerge {
-      0%   { transform: translateY(40%); opacity: 0; }
-      18%  { transform: translateY(4%);  opacity: 1; }  /* peek above front panel */
-      52%  { transform: translateY(4%);  opacity: 1; }  /* hold at peek */
-      100% { transform: translateY(-22%); opacity: 1; } /* fully revealed */
+    @keyframes card-slide {
+      from { transform: translateY(0); }
+      to   { transform: translateY(-62%); }
     }
 
     .envelope.is-open .envelope-paper {
-      opacity: 1;
-      transform: translateY(-22%);
-      animation: card-emerge 2s ease-out 1.6s both;
+      animation: card-slide 1.2s cubic-bezier(0.22, 1, 0.36, 1) 1s forwards;
     }
 
     /* ── Message ─────────────────────────────────────────────────── */
@@ -273,15 +267,7 @@
       right: 0;
       text-align: center;
       padding: 0 20px;
-      opacity: 0;
-      transform: translateY(12px);
-      transition: opacity 0.5s ease 3.4s, transform 0.5s ease 3.4s;
       pointer-events: none;
-    }
-
-    .envelope.is-open .message {
-      opacity: 1;
-      transform: translateY(0);
     }
 
     .message-cn {
@@ -494,12 +480,17 @@
       isOpen = true;
       envelope.classList.add('is-open');
       fireBurst();
-      // Fix 4: after burst completes, stop spawning and fade canvas out
+      // After burst completes, stop spawning and fade canvas out
       setTimeout(() => {
         fireActive = false;
         canvas.style.transition = 'opacity 0.8s ease';
         canvas.style.opacity = '0';
       }, 800);
+      // At 1s (flap halfway through rotation), promote paper above flap so card can slide over it
+      setTimeout(() => {
+        document.querySelector('.envelope-paper').style.zIndex = '5';
+        document.querySelector('.envelope-front').style.zIndex = '6';
+      }, 1000);
     }
 
     // Desktop: click
