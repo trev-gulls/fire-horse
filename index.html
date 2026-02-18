@@ -135,6 +135,55 @@
       pointer-events: none;
       font-family: "PingFang SC", "Microsoft YaHei", "SimSun", serif;
     }
+
+    /* ── Wax Seal ────────────────────────────────────────────────── */
+    .seal {
+      position: absolute;
+      width: clamp(64px, 18vw, 88px);
+      height: clamp(64px, 18vw, 88px);
+      border-radius: 50%;
+      background: radial-gradient(circle at 35% 35%, #FFD700, #C9A84C 60%, #8B6914);
+      border: 3px solid #8B6914;
+      box-shadow:
+        0 0 0 2px #FFD700,
+        0 4px 12px rgba(0,0,0,0.5);
+      top: -44px;
+      left: 50%;
+      transform: translateX(-50%);
+      z-index: 10;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+      animation: seal-pulse 2.4s ease-in-out infinite;
+      -webkit-tap-highlight-color: transparent;
+    }
+
+    .seal-horse {
+      font-size: clamp(1.6rem, 5vw, 2.2rem);
+      line-height: 1;
+      color: #5a3a00;
+      text-shadow: 0 1px 2px rgba(0,0,0,0.4);
+      -webkit-user-select: none;
+      user-select: none;
+      pointer-events: none;
+    }
+
+    /* ── Seal Pulse Animation ────────────────────────────────────── */
+    @keyframes seal-pulse {
+      0%, 100% {
+        box-shadow:
+          0 0 0 2px #FFD700,
+          0 4px 12px rgba(0,0,0,0.5),
+          0 0 14px 3px rgba(255,150,0,0.25);
+      }
+      50% {
+        box-shadow:
+          0 0 0 2px #FFD700,
+          0 4px 12px rgba(0,0,0,0.5),
+          0 0 26px 10px rgba(255,150,0,0.5);
+      }
+    }
   </style>
 </head>
 <body>
