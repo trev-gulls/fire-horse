@@ -113,7 +113,7 @@
       z-index: 3;
       transform-origin: top center;
       transform-style: preserve-3d;
-      transition: transform 0.65s cubic-bezier(0.4, 0, 0.2, 1);
+      transition: transform 2s cubic-bezier(0.4, 0, 0.2, 1);
     }
 
     /* ── Step 6: 福 character on the front body ── */
@@ -220,7 +220,7 @@
     /* ── Open State ──────────────────────────────────────────────── */
     /* negative rotateX with bottom-center origin = top of flap folds backward (away from viewer) */
     .envelope.is-open .envelope-flap {
-      transform: rotateX(-175deg);
+      transform: rotateX(175deg);
     }
 
     .envelope.is-open .seal {
