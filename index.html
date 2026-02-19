@@ -165,6 +165,10 @@
 
     /* Fix 9: calligraphic font for a more elegant seal character */
     .seal-horse {
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
       font-size: clamp(1.6rem, 5vw, 2.2rem);
       line-height: 1;
       color: #5a3a00;
@@ -210,13 +214,9 @@
 
     /* ── Fire Canvas ─────────────────────────────────────────────── */
     #fire-canvas {
-      position: fixed;
-      top: 0;
-      left: 0;
-      width: 100%;
-      height: 100%;
+      position: absolute;
       pointer-events: none;
-      z-index: 5;
+      z-index: 50;
     }
 
     /* ── Open State ──────────────────────────────────────────────── */
@@ -322,14 +322,14 @@
         </div>
       </div>
 
-      <!-- Fix 1: seal is last child of .envelope — DOM order guarantees it
-           paints above all sibling layers regardless of stacking context. -->
+      <!-- Fire canvas: z-index 50 sits above envelope body layers but below seal (100) -->
+      <canvas id="fire-canvas" aria-hidden="true"></canvas>
+      <!-- Seal is last child so it paints above canvas and all body layers -->
       <div class="seal" id="seal" role="button" tabindex="0" aria-label="Tap to open">
         <span class="seal-horse" aria-hidden="true">馬</span>
       </div>
     </div>
   </div>
-  <canvas id="fire-canvas" aria-hidden="true"></canvas>
   <script>
     // ─── Fire Particle System ───────────────────────────────────────────────────
 
@@ -344,15 +344,22 @@
     function updateSealCenter() {
       const seal = document.getElementById('seal');
       const rect = seal.getBoundingClientRect();
-      sealCenter = { x: rect.left + rect.width / 2, y: rect.top + rect.height / 2 };
+      sealCenter = { x: rect.left + rect.width / 2, y: rect.bottom };
     }
 
     // Initialize after DOM is ready (called at end of script setup)
     updateSealCenter();
 
     function resizeCanvas() {
+      const envRect = document.querySelector('.envelope').getBoundingClientRect();
       canvas.width = window.innerWidth;
       canvas.height = window.innerHeight;
+      // Offset canvas so its (0,0) matches the viewport origin;
+      // particle coordinates remain in viewport space.
+      canvas.style.left = (-envRect.left) + 'px';
+      canvas.style.top  = (-envRect.top)  + 'px';
+      canvas.style.width  = window.innerWidth  + 'px';
+      canvas.style.height = window.innerHeight + 'px';
       updateSealCenter();
       particles = []; // force immediate respawn at new seal position
     }
@@ -370,7 +377,7 @@
 
       reset(x, y) {
         this.x = x + (Math.random() - 0.5) * 60;
-        this.y = y + (Math.random() - 0.5) * 20;
+        this.y = y + Math.random() * 10;
         this.vx = (Math.random() - 0.5) * 1.2;
         this.vy = -(Math.random() * 2.5 + 1) * fireIntensity;
         this.life = 1.0;
