@@ -80,6 +80,7 @@
       position: relative;
       background: #CC0000;
       border-radius: 0 0 4px 4px;
+      clip-path: url(#front-concave);
       z-index: 3;
     }
 
@@ -250,7 +251,7 @@
 
     @keyframes card-slide {
       from { transform: translateY(0); }
-      to   { transform: translateY(-45%); }
+      to   { transform: translateY(-60%); }
     }
 
     .envelope.is-open .envelope-paper {
@@ -260,7 +261,7 @@
     /* ── Message ─────────────────────────────────────────────────── */
     .message {
       position: absolute;
-      top: 18%;
+      top: 14%;
       left: 0;
       right: 0;
       text-align: center;
@@ -291,6 +292,14 @@
   </style>
 </head>
 <body>
+  <!-- Concave clip-path for envelope front panel mouth -->
+  <svg width="0" height="0" aria-hidden="true" style="position:absolute;pointer-events:none;overflow:hidden">
+    <defs>
+      <clipPath id="front-concave" clipPathUnits="objectBoundingBox">
+        <path d="M0,0 C0.3,0.09 0.7,0.09 1,0 L1,1 L0,1 Z"/>
+      </clipPath>
+    </defs>
+  </svg>
   <div class="scene">
     <div class="envelope" id="envelope">
       <!-- Back of envelope (always behind) -->
