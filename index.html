@@ -147,7 +147,7 @@
       box-shadow:
         0 0 0 2px #FFD700,
         0 4px 12px rgba(0,0,0,0.5);
-      top: 32%;
+      top: 34%;
       left: 50%;
       transform: translate(-50%, -50%);
       z-index: 100;
@@ -342,9 +342,10 @@
     let sealCenter = { x: 0, y: 0 };
 
     function updateSealCenter() {
-      const seal = document.getElementById('seal');
-      const rect = seal.getBoundingClientRect();
-      sealCenter = { x: rect.left + rect.width / 2, y: rect.bottom };
+      const env = document.querySelector('.envelope');
+      const rect = env.getBoundingClientRect();
+      // Spawn fixed at 32% down the envelope — fire stays here even as seal moves
+      sealCenter = { x: rect.left + rect.width / 2, y: rect.top + rect.height * 0.34 };
     }
 
     // Initialize after DOM is ready (called at end of script setup)
