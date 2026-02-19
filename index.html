@@ -35,7 +35,6 @@
       justify-content: center;
       width: 100vw;
       height: 100vh;
-      perspective: 800px;
     }
 
     /* ── Step 2: Envelope container ── */
@@ -46,7 +45,7 @@
       cursor: default;
       -webkit-user-select: none;
       user-select: none;
-      transform-style: preserve-3d;
+      perspective: 800px;
     }
 
     .envelope-back,
@@ -114,7 +113,6 @@
       border-radius: 4px 4px 50% 50% / 4px 4px 30px 30px;
       z-index: 4;
       transform-origin: top center;
-      transform-style: preserve-3d;
       transition: transform 2s cubic-bezier(0.4, 0, 0.2, 1);
       box-shadow: inset 0 2px 3px rgba(0,0,0,0.18);
     }
@@ -252,7 +250,7 @@
 
     @keyframes card-slide {
       from { transform: translateY(0); }
-      to   { transform: translateY(-62%); }
+      to   { transform: translateY(-45%); }
     }
 
     .envelope.is-open .envelope-paper {

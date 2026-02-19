@@ -20,7 +20,7 @@ const filePath = join(import.meta.dir, "..", "index.html");
 await page.goto(`file://${filePath}`);
 await page.waitForTimeout(400);
 await page.locator(".seal").click();
-await page.waitForTimeout(1800);
+await page.waitForTimeout(3500);
 
 const buf = await page.screenshot({ type: "png" });
 const dest = join(import.meta.dir, "..", "preview-opened.png");
