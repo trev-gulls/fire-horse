@@ -1,6 +1,6 @@
 # fire-horse
 
-Digital red envelope (红包) for Chinese New Year 2026 — Year of the Fire Horse.
+Digital red envelope (红包) for Lunar New Year 2026 — Year of the Fire Horse.
 
 ## Project Rules
 
